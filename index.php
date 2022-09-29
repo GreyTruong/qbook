@@ -1,24 +1,32 @@
-<pre><?php
-  echo "start page\n";
-  $title = $_POST["title"];
-  $content = $_POST["content"];
-  $book = "Quang Âm Chi Ngoại";
-  if (!isset($_POST["submit"])) {
-    echo "submission";
-    die;
-  }
-  // if (!$title || !$content) {
-  //   echo "empty fields";
-  //   die;
-  // }
-  // $bridge = mysqli_connect('localhost', 'root','root','quanbook');
-  // $query = "INSERT INTO chapter (chapter_title, chapter_content, book_name) VALUES ('$title', '$content', '$book')";
-  // if (!$bridge->query($query)) {
-  //   echo "cool";
-  // }
-  // else{
-  //   echo "issue";
-  // }
-  echo "working";
+
+<?php
+  include_once './config/database.php';
+  include_once './class/books.php';
+  $database = new Database();
+  $db = $database->getConnection();
+  $items = new Book($db);
+  $stmt = $items->getBooks();
+  $itemCount = $stmt->rowCount();
+  if($itemCount > 0){    
 ?>
-</pre>
+<html>
+<body>
+  <form action="viewbook.php" method="post">
+    <p>Please select book:</p>
+    <?php 
+      echo "<select name=bookName>";
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){        
+        if ($row['book_name'] != '') {
+          echo "<option value='".$row['book_name']."'>".$row['book_name']."</option>";
+        }
+      }
+      echo "</select>"
+    ?>
+    <br/>
+    <input type="submit" style="margin-top: 20px;" />
+  </form>
+</body>
+</html>
+<?php 
+ } 
+?>
