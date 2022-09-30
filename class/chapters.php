@@ -35,6 +35,13 @@ class Chapter
     $stmt->execute();
     return $stmt;
   }
+  public function getChaptersbyBookNameandChapter($bookName,$chapterNo)
+  {
+    $sqlQuery = "SELECT id, chapter_title, chapter_content, book_name, chapter_no FROM " . $this->db_table . " WHERE book_name = '". $bookName . "' AND chapter_no =".$chapterNo." ORDER by chapter_no ASC";
+    $stmt = $this->conn->prepare($sqlQuery);
+    $stmt->execute();
+    return $stmt;
+  }
 
   // CREATE
   public function createChapter()

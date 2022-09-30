@@ -12,6 +12,7 @@
     $db = $database->getConnection();
 
     $item = new Chapter($db);
+    $items = new Chapter($db);
 
     $data = json_decode(file_get_contents("php://input"));
     if ($data->chapter_title != '' &&  $data->chapter_content != '' && $data->book_name != '') {
@@ -19,14 +20,20 @@
         $item->chapter_content = $data->chapter_content;
         $item->chapter_no = $data->chapter_no;
         $item->book_name = $data->book_name;
-        
-        if($item->createChapter()){
-            $result = '{"status": 200, "text":  "Chapter created successfully."}';
-            echo $result;
-            // echo json_encode($result);
-        } else{
-            $result = '{"status": 400, "text":  "Chapter created fail."}';
-            echo $result;
+        $stmt = $items->getChaptersbyBookNameandChapter($data->book_name, $data->chapter_no);
+        $itemCount = $stmt->rowCount();
+        if ($itemCount == 0) {
+            if($item->createChapter()){
+                $result = '{"status": 200, "text":  "Chapter created successfully."}';
+                echo $result;
+                // echo json_encode($result);
+            } else{
+                $result = '{"status": 400, "text":  "Chapter created fail."}';
+                echo $result;
+            }
+        } else {
+            $result = '{"status": 400, "text":  "Chapter existed."}';
+                echo $result;
         }
     }
 ?>
