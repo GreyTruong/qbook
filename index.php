@@ -23,10 +23,26 @@
       echo "</select>"
     ?>
     <br/>
-    <input type="submit" style="margin-top: 20px;" />
+    <p>From chapter:</p>
+    <input type="number" name="fromChapter" value="0"  id="fromChapter" onchange="compareValue()" />
+    <p>To chapter:</p>
+    <input type="number" name="toChapter" value="0" id="toChapter" onchange="compareValue()" />
+    <br/>
+    <input type="submit" style="margin-top: 20px;" id="submit" />
   </form>
 </body>
 </html>
 <?php 
  } 
 ?>
+<script>
+  function compareValue() {
+    var fromChapterNo = parseInt(document.getElementById("fromChapter").value);
+    var toChapterNo =  parseInt(document.getElementById("toChapter").value);
+    if (fromChapterNo > 0 && toChapterNo > 0 && fromChapterNo > toChapterNo) {
+      alert('Nhập sai rồi bạn ơi');
+      document.getElementById("fromChapter").value = 0;
+      document.getElementById("toChapter").value = 0;
+    }
+  }
+</script>

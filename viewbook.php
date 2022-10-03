@@ -9,8 +9,11 @@
 
   $items = new Chapter($db);
   $bookName = $_POST["bookName"];
+  $fromChapter = $_POST["fromChapter"];
+  $toChapter = $_POST["toChapter"];
+  
   if ($bookName !=''){
-    $stmt = $items->getChaptersbyBookName($bookName);
+    $stmt = $items->getChaptersbyBookName($bookName, $fromChapter, $toChapter);
     $itemCount = $stmt->rowCount();
     
     if($itemCount > 0){    

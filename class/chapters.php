@@ -28,9 +28,18 @@ class Chapter
     $stmt->execute();
     return $stmt;
   }
-  public function getChaptersbyBookName($bookName)
+  public function getChaptersbyBookName($bookName, $fromChapter, $toChapter)
   {
     $sqlQuery = "SELECT id, chapter_title, chapter_content, book_name, chapter_no FROM " . $this->db_table . " WHERE book_name = '". $bookName . "' ORDER by chapter_no ASC";
+    if ($fromChapter > 0 && $toChapter == 0) {
+      $sqlQuery = "SELECT id, chapter_title, chapter_content, book_name, chapter_no FROM " . $this->db_table . " WHERE book_name = '". $bookName . "' AND chapter_no >= ". $fromChapter ." ORDER by chapter_no ASC";
+    }
+    if ($fromChapter > 0 && $toChapter > 0) {
+      $sqlQuery = "SELECT id, chapter_title, chapter_content, book_name, chapter_no FROM " . $this->db_table . " WHERE book_name = '". $bookName . "' AND chapter_no >= ". $fromChapter ." AND chapter_no <= ". $toChapter ." ORDER by chapter_no ASC";
+    }
+    if ($fromChapter == 0 && $toChapter > 0) {
+      $sqlQuery = "SELECT id, chapter_title, chapter_content, book_name, chapter_no FROM " . $this->db_table . " WHERE book_name = '". $bookName . "' AND chapter_no <= ". $toChapter ." ORDER by chapter_no ASC";
+    }
     $stmt = $this->conn->prepare($sqlQuery);
     $stmt->execute();
     return $stmt;
