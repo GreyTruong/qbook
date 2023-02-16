@@ -18,7 +18,7 @@
     $item->id = $data->id;
     
     if($item->deleteChapter()){
-        echo json_encode("Chapter deleted.");
+        echo json_encode("Chapter is deleted successfully.");
     } else{
         echo json_encode("Data could not be deleted");
     }
