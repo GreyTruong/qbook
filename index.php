@@ -1,5 +1,6 @@
 
 <?php
+  header("Access-Control-Allow-Origin: http://localhost:3000");
   include_once './config/database.php';
   include_once './class/books.php';
   $database = new Database();
